@@ -1,0 +1,29 @@
+
+<mat-card class="max-w-2xl">
+  <h2 class="text-xl font-semibold mb-4">Scan & Index GitHub Repo</h2>
+
+  <form [formGroup]="scanForm" (ngSubmit)="submit()" class="space-y-4">
+    <mat-form-field class="w-full">
+      <mat-label>GitHub Repo URL</mat-label>
+      <input matInput formControlName="githubUrl" placeholder="https://github.com/owner/repo" />
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Branch</mat-label>
+      <input matInput formControlName="branch" />
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Project (optional)</mat-label>
+      <input matInput formControlName="project" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Scan</button>
+  </form>
+
+  <div *ngIf="loading" class="mt-4 flex justify-center"><mat-spinner></mat-spinner></div>
+  <div *ngIf="error" class="mt-4 text-red-600">{{ error }}</div>
+
+  <pre *ngIf="response" class="bg-gray-100 p-4 rounded mt-4">{{ response }}</pre>
+  <!-- <button mat-button *ngIf="response" (click)="downloadJSON()">Download JSON</button> -->
+</mat-card>

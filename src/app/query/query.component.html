@@ -1,0 +1,45 @@
+
+<mat-card class="max-w-3xl">
+  <h2 class="text-xl font-semibold mb-4">Run Query Against Repositories</h2>
+
+  <form [formGroup]="queryForm" (ngSubmit)="submit()" class="space-y-4">
+    <div formArrayName="repoEntities">
+      <div *ngFor="let group of repoEntities.controls; let i = index" [formGroupName]="i" class="mb-4 p-4 bg-white rounded shadow-sm">
+        <mat-form-field class="w-full">
+          <mat-label>GitHub URL</mat-label>
+          <input matInput formControlName="githubUrl" placeholder="https://github.com/owner/repo" />
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Branch</mat-label>
+          <input matInput formControlName="branch" />
+        </mat-form-field>
+
+        <button mat-button color="warn" (click)="removeRepo(i)" *ngIf="repoEntities.length > 1">Remove</button>
+      </div>
+    </div>
+
+    <button mat-button color="primary" (click)="addRepo()">+ Add Repository</button>
+
+    <mat-form-field class="w-full">
+      <mat-label>Query</mat-label>
+      <textarea matInput rows="4" formControlName="query"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Run Query</button>
+  </form>
+
+  <div *ngIf="loading" class="mt-4 flex justify-center"><mat-spinner></mat-spinner></div>
+  <div *ngIf="error" class="mt-4 text-red-600">{{ error }}</div>
+
+  <pre *ngIf="response" class="bg-gray-100 p-4 rounded mt-4">{{ response }}</pre>
+</mat-card>
+
+<mat-card class="mt-6 max-w-3xl">
+  <h3 class="text-lg font-semibold">Query History</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let item of history" (click)="selectHistory(item)" style="cursor: pointer;">
+      {{ item.timestamp }} — {{ item.payload.query | slice:0:60 }}...
+    </mat-list-item>
+  </mat-list>
+</mat-card>
