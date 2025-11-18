@@ -11,7 +11,7 @@ RUN chmod +x node_modules/.bin/* || true
 
 # Copy source and build
 COPY . .
-RUN npm run build -- --configuration=production
+RUN npm run build --configuration=production
 
 # Stage 2: runtime using lightweight Node static server
 FROM node:20-alpine
@@ -21,7 +21,7 @@ WORKDIR /app
 RUN npm install -g serve@14
 
 # Copy built angular app
-COPY --from=build /app/dist/GITHUB-SCAN-UI-FULL ./dist
+COPY --from=build /app/dist/github-scan-ui ./dist
 
 # Use Render's default PORT
 ENV PORT=10000
