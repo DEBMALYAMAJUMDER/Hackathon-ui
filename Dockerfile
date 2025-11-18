@@ -17,7 +17,7 @@ COPY . .
 RUN chmod +x node_modules/.bin/*
 
 # Build Angular in production mode
-RUN npm run build -- --configuration production
+RUN npm run build -- --configuration=Dev
 
 
 # ===============================
