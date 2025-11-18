@@ -6,23 +6,25 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# Fix permissions for binaries (important for Alpine)
+RUN chmod +x node_modules/.bin/* || true
+
 # Copy source and build
 COPY . .
 RUN npm run build -- --configuration=production
 
-# Stage 2: runtime using lightweight Node static server (no nginx)
+# Stage 2: runtime using lightweight Node static server
 FROM node:20-alpine
 WORKDIR /app
 
-# Install a small static server (serve). Version pin optional.
+# Install static server
 RUN npm install -g serve@14
 
-# Copy built files (replace YOUR_ANGULAR_PROJECT_NAME with your actual dist folder name)
+# Copy built angular app
 COPY --from=build /app/dist/GITHUB-SCAN-UI-FULL ./dist
 
-# Use Render's default PORT if set; otherwise fallback to 10000
+# Use Render's default PORT
 ENV PORT=10000
 EXPOSE 10000
 
-# Serve the app, binding to 0.0.0.0 and using the PORT env var
 CMD ["sh", "-c", "serve -s ./dist -l tcp://0.0.0.0:$PORT"]
