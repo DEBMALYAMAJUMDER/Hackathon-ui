@@ -5,7 +5,6 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-
 RUN chmod +x node_modules/.bin/ng
 RUN node_modules/.bin/ng build --configuration=production
 
@@ -19,4 +18,4 @@ COPY --from=build /app/dist/github-scan-ui ./dist
 ENV PORT=10000
 EXPOSE 10000
 
-CMD ["serve", "-s", "dist", "-l", "0.0.0.0:$PORT"]
+CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:$PORT"]
