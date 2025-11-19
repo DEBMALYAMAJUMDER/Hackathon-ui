@@ -1,17 +1,20 @@
-
 <mat-card class="max-w-3xl">
   <div class="p-4 bg-white rounded shadow mb-6">
     <h2 class="text-xl font-semibold">Run Query Against Repositories</h2>
   </div>
 
   <form [formGroup]="queryForm" (ngSubmit)="submit()" class="space-y-4">
+
     <div formArrayName="repoEntities">
-      <div *ngFor="let group of repoEntities.controls; let i = index" [formGroupName]="i" class="mb-4 p-4 bg-white rounded shadow-sm">
+      <div *ngFor="let group of repoEntities.controls; let i = index"
+           [formGroupName]="i"
+           class="mb-4 p-4 bg-white rounded shadow-sm">
+
         <div class="mb-4">
           <label class="block mb-1 font-medium">GitHub URL*</label>
-          <input 
+          <input
             type="text"
-            [(ngModel)]="url"
+            formControlName="githubUrl"
             class="border p-2 w-full rounded"
             placeholder="https://github.com/owner/repo"
           />
@@ -19,13 +22,15 @@
 
         <div class="mb-4">
           <label class="block mb-1 font-medium">Branch*</label>
-          <select [(ngModel)]="branch" class="border p-2 w-full rounded">
+          <select formControlName="branch" class="border p-2 w-full rounded">
             <option value="main">main</option>
             <option value="master">master</option>
           </select>
         </div>
 
-        <button mat-button color="warn" (click)="removeRepo(i)" *ngIf="repoEntities.length > 1">Remove</button>
+        <button mat-button color="warn" (click)="removeRepo(i)" *ngIf="repoEntities.length > 1">
+          Remove
+        </button>
       </div>
     </div>
 
@@ -33,18 +38,23 @@
 
     <div class="mb-4">
       <label class="block mb-1 font-medium">Query*</label>
-      <input 
+      <input
         type="text"
-        [(ngModel)]="query"
+        formControlName="query"
         class="border p-2 w-full rounded"
         placeholder="Write your Query"
       />
     </div>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Run Query</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      Run Query
+    </button>
   </form>
 
-  <div *ngIf="loading" class="mt-4 flex justify-center"><mat-spinner></mat-spinner></div>
+  <div *ngIf="loading" class="mt-4 flex justify-center">
+    <mat-spinner></mat-spinner>
+  </div>
+
   <div *ngIf="error" class="mt-4 text-red-600">{{ error }}</div>
 
   <pre *ngIf="response" class="bg-gray-100 p-4 rounded mt-4">{{ response }}</pre>
@@ -53,7 +63,9 @@
 <mat-card class="mt-6 max-w-3xl">
   <h3 class="text-lg font-semibold">Query History</h3>
   <mat-list>
-    <mat-list-item *ngFor="let item of history" (click)="selectHistory(item)" style="cursor: pointer;">
+    <mat-list-item *ngFor="let item of history"
+                   (click)="selectHistory(item)"
+                   style="cursor: pointer;">
       {{ item.timestamp }} — {{ item.payload.query | slice:0:60 }}...
     </mat-list-item>
   </mat-list>

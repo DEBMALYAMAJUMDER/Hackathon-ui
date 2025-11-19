@@ -1,14 +1,15 @@
-
 <mat-card class="max-w-2xl">
   <div class="p-4 bg-white rounded shadow mb-6">
     <h2 class="text-xl font-semibold">Scan & Index GitHub Repository</h2>
   </div>
+
   <form [formGroup]="scanForm" (ngSubmit)="submit()" class="space-y-4">
+    
     <div class="mb-4">
       <label class="block mb-1 font-medium">GitHub URL*</label>
       <input 
         type="text"
-        [(ngModel)]="url"
+        formControlName="githubUrl"
         class="border p-2 w-full rounded"
         placeholder="https://github.com/owner/repo"
       />
@@ -16,7 +17,7 @@
 
     <div class="mb-4">
       <label class="block mb-1 font-medium">Branch*</label>
-      <select [(ngModel)]="branch" class="border p-2 w-full rounded">
+      <select formControlName="branch" class="border p-2 w-full rounded">
         <option value="main">main</option>
         <option value="master">master</option>
       </select>
@@ -26,17 +27,18 @@
       <label class="block mb-1 font-medium">Project (optional)</label>
       <input 
         type="text"
-        [(ngModel)]="project"
+        formControlName="project"
         class="border p-2 w-full rounded"
         placeholder="Enter project name"
       />
     </div>
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Scan</button>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      Scan
+    </button>
   </form>
 
   <div *ngIf="loading" class="mt-4 flex justify-center"><mat-spinner></mat-spinner></div>
   <div *ngIf="error" class="mt-4 text-red-600">{{ error }}</div>
-
   <pre *ngIf="response" class="bg-gray-100 p-4 rounded mt-4">{{ response }}</pre>
-  <!-- <button mat-button *ngIf="response" (click)="downloadJSON()">Download JSON</button> -->
 </mat-card>
