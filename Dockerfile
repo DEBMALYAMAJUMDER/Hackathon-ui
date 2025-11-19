@@ -1,19 +1,30 @@
-# Dockerfile.dev
-FROM node:20-alpine
-
+# ---------- Stage 1: Build Angular App ----------
+FROM node:20-alpine AS build
 WORKDIR /app
 
-# Install deps
-COPY package.json package-lock.json ./
+# Install dependencies
+COPY package*.json ./
 RUN npm ci
 
-# Copy app
+# Copy source code
 COPY . .
 
-# Ensure host binding works and use the PORT env var from Render
+# Build Angular in production mode
+RUN npm run build -- --configuration=production
+
+# ---------- Stage 2: Serve Angular App ----------
+FROM node:20-alpine
+WORKDIR /app
+
+# Install "serve" to host static files
+RUN npm install -g serve
+
+# Copy built files from the build stage
+COPY --from=build /app/dist/ /app/dist/
+
+# Render uses the PORT variable
 ENV PORT=10000
 EXPOSE 10000
 
-# Run the dev server binding to 0.0.0.0 so Render can route to it.
-# Use --host 0.0.0.0 and pass PORT
-CMD ["sh", "-c", "npm run start -- --host 0.0.0.0 --port $PORT"]
+# Host Angular dist folder
+CMD ["serve", "-s", "dist", "-l", "0.0.0.0:$PORT"]
