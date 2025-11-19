@@ -1,21 +1,23 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy sources
 COPY . .
 
-# FIX: Ensure ng binary is executable
 RUN chmod +x node_modules/.bin/ng
-
-# Build using local Angular CLI
 RUN node_modules/.bin/ng build --configuration=production
+
+FROM node:20-alpine
+
+WORKDIR /app
+RUN npm install -g serve@14
+
+COPY --from=build /app/dist/github-scan-ui ./dist
 
 ENV PORT=10000
 EXPOSE 10000
 
-CMD ["sh", "-c", "npm run start -- --host 0.0.0.0 --port $PORT"]
+CMD ["serve", "-s", "dist", "-l", "0.0.0.0:$PORT"]
