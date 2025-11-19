@@ -6,3 +6,7 @@
 /* Basic global styles */
 body { @apply bg-gray-100 text-gray-900 font-sans; }
 mat-card { @apply p-4; }
+.active-tab {
+    background-color: #3b82f6 !important; /* Tailwind blue-500 */
+    color: white !important;
+  }

@@ -13,6 +13,14 @@ export class ScanComponent {
   response: any = null;
   loading = false;
   error: string | null = null;
+  branch: string = 'main';
+  project: string = '';
+  url: string = '';
+
+  scanRepo() {
+    console.log("Selected branch:", this.branch);
+  }
+
 
   constructor(private fb: FormBuilder, private api: ApiService) {
     this.scanForm = this.fb.group({
@@ -22,6 +30,7 @@ export class ScanComponent {
     });
   }
 
+  
   submit() {
     if (this.scanForm.invalid) return;
     this.loading = true; this.response = null; this.error = null;

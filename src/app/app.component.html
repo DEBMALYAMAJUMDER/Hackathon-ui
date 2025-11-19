@@ -1,8 +1,27 @@
 
-<nav class="p-4 bg-white shadow">
-  <a routerLink="/scan" class="mr-4">Scan</a>
-  <a routerLink="/query">Query</a>
+<nav class="p-4 bg-white shadow flex space-x-4">
+  
+  <!-- Scan -->
+  <a 
+    routerLink="/scan"
+    routerLinkActive="active-tab"
+    class="px-4 py-2 bg-gray-100 rounded font-bold hover:bg-gray-200"
+  >
+    Scan
+  </a>
+
+  <!-- Query -->
+  <a 
+    routerLink="/query"
+    routerLinkActive="active-tab"
+    class="px-4 py-2 bg-gray-100 rounded font-bold hover:bg-gray-200"
+  >
+    Query
+  </a>
+
 </nav>
+
+
 <main class="p-6">
   <router-outlet></router-outlet>
 </main>

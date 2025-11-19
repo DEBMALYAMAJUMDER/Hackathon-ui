@@ -14,6 +14,8 @@ export class QueryComponent implements OnInit {
   history: any[] = [];
   loading = false;
   error: string | null = null;
+  url: string = '';
+  query: string = '';
 
   constructor(private fb: FormBuilder, private api: ApiService) {}
 

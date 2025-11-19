@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ScanComponent } from './scan/scan.component';
 import { QueryComponent } from './query/query.component';
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [AppComponent, ScanComponent, QueryComponent],
@@ -31,7 +32,8 @@ import { QueryComponent } from './query/query.component';
     MatCardModule,
     MatIconModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
