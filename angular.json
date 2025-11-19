@@ -4,7 +4,7 @@
   "projects": {
     "github-scan-ui": {
       "projectType": "application",
-      "root": "src",
+      "root": "",
       "sourceRoot": "src",
       "architect": {
         "build": {
@@ -13,7 +13,7 @@
             "outputPath": "dist/github-scan-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
@@ -23,11 +23,7 @@
             "production": {
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "buildOptimizer": true
+              "sourceMap": false
             }
           }
         },
@@ -44,6 +40,5 @@
         }
       }
     }
-  },
-  "defaultProject": "github-sscan-ui"
+  }
 }
