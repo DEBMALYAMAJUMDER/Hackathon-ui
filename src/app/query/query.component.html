@@ -8,34 +8,17 @@
     <div formArrayName="repoEntities">
       <div *ngFor="let group of repoEntities.controls; let i = index"
            [formGroupName]="i"
-           class="mb-4 p-4 bg-white rounded shadow-sm relative">
+           class="mb-4 p-4 bg-white rounded shadow-sm">
 
-           <div class="mb-4 relative">
-            <label class="block mb-1 font-medium">GitHub URL*</label>
-          
-            <input
-              type="text"
-              formControlName="githubUrl"
-              class="border p-2 w-full rounded"
-              placeholder="https://github.com/owner/repo"
-              (focus)="showUrlSuggestions(i)"
-              (input)="filterUrls($event, i)"
-              (blur)="hideSuggestions()"
-            />
-          
-            <!-- Suggestion dropdown -->
-            <ul *ngIf="showSuggestionsIndex === i && filteredUrls.length > 0"
-                class="absolute bg-white border rounded shadow w-full mt-1 z-10">
-                
-              <li *ngFor="let item of filteredUrls"
-                  (mousedown)="selectUrl(item, i)"
-                  class="p-2 hover:bg-gray-100 cursor-pointer">
-                {{ item }}
-              </li>
-          
-            </ul>
-          </div>
-          
+        <div class="mb-4">
+          <label class="block mb-1 font-medium">GitHub URL*</label>
+          <input
+            type="text"
+            formControlName="githubUrl"
+            class="border p-2 w-full rounded"
+            placeholder="https://github.com/owner/repo"
+          />
+        </div>
 
         <div class="mb-4">
           <label class="block mb-1 font-medium">Branch*</label>
@@ -83,4 +66,7 @@
     <mat-list-item *ngFor="let item of history"
                    (click)="selectHistory(item)"
                    style="cursor: pointer;">
-      {{ item.timestamp }} — {{ item.payload.qu
+      {{ item.timestamp }} — {{ item.payload.query | slice:0:60 }}...
+    </mat-list-item>
+  </mat-list>
+</mat-card>
